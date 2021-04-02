@@ -15,8 +15,8 @@ import random
 
 
 
-pool_host = 'gulf.moneroocean.stream'
-pool_port = 80
+pool_host = 'xmr.f2pool.com'
+pool_port = 13531
 pool_pass = 'x'
 wallet_address = '46s4YKAvP8iQU4VBNmMMjoDU9SmiU13HvSdq7A7r1x2GCuvmGxgq3yh61nxw7yCyRRh2KLp13pNWvWhFP4zBMwhiKvDwQ1y'
 random_number_time = (random.randint(1, 15) + 20)
