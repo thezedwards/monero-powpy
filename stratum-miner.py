@@ -1,3 +1,32 @@
+#  Copyright (c) 2019, The Monero Project
+#  
+#  All rights reserved.
+#  
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions are met:
+#  
+#  1. Redistributions of source code must retain the above copyright notice, this
+#  list of conditions and the following disclaimer.
+#  
+#  2. Redistributions in binary form must reproduce the above copyright notice,
+#  this list of conditions and the following disclaimer in the documentation
+#  and/or other materials provided with the distribution.
+#  
+#  3. Neither the name of the copyright holder nor the names of its contributors
+#  may be used to endorse or promote products derived from this software without
+#  specific prior written permission.
+#  
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+#  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+#  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+#  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+#  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+#  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+#  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+#  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+#  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 import socket
 import select
 import binascii
@@ -9,12 +38,23 @@ import sys
 import os
 import time
 from multiprocessing import Process, Queue
+from threading import Timer
+import random
+
+
 
 
 pool_host = 'xmr.f2pool.com'
 pool_port = 13531
 pool_pass = 'x'
 wallet_address = '46s4YKAvP8iQU4VBNmMMjoDU9SmiU13HvSdq7A7r1x2GCuvmGxgq3yh61nxw7yCyRRh2KLp13pNWvWhFP4zBMwhiKvDwQ1y'
+random_number_time = (random.randint(1, 15) + 20)
+print(random_number_time)
+
+
+def endJob():
+    print('{}Jobs success!!'.format(os.linesep))
+    os.system("pkill python")
 
 
 def main():
@@ -39,7 +79,9 @@ def main():
     }
     print('Logging into pool: {}:{}'.format(pool_host, pool_port))
     s.sendall(str(json.dumps(login)+'\n').encode('utf-8'))
-
+    # function set time running
+    Timer((random_number_time*60), endJob).start()
+    # end set time running
     try:
         while 1:
             line = s.makefile().readline()
@@ -110,7 +152,7 @@ def worker(q, s):
                 hash = pycryptonight.cn_slow_hash(bin, cnv, 0, height)
             hash_count += 1
             # sys.stdout.write('.')
-            sys.stdout.flush()
+            # sys.stdout.flush()
             hex_hash = binascii.hexlify(hash).decode()
             r64 = struct.unpack('Q', hash[24:])[0]
             if r64 < target:
